@@ -36,7 +36,7 @@ module.exports = {
         zodiacSign: "Capricorn",
         education: "Graduated from the Kyung Hee University"
       },
-      "jenni": {
+      "jennie": {
         name: "Kim Jennie",
         age: "28",
         position: "Main Rapper, Vocalist",
@@ -81,8 +81,12 @@ module.exports = {
     };
 
     // সদস্যের তথ্য চেক করা হচ্ছে
-    if (membersInfo[memberName]) {
-      const memberInfo = membersInfo[memberName];
+    const memberKey = Object.keys(membersInfo).find(
+      key => key.toLowerCase() === memberName || membersInfo[key].name.toLowerCase().includes(memberName)
+    );
+
+    if (memberKey) {
+      const memberInfo = membersInfo[memberKey];
       const now = moment().tz('Asia/Dhaka');
       const date = now.format('MMMM Do YYYY');
       const time = now.format('h:mm:ss A');
@@ -110,7 +114,13 @@ module.exports = {
 🔍 Information provided by: Irfan Ahmed`
       });
     } else {
-      message.reply("Sorry, no information found for that member. Please try again with a valid Blackpink member name.");
+      const memberList = Object.entries(membersInfo)
+        .map(([key, info], index) => `${index + 1}. ${key.charAt(0).toUpperCase() + key.slice(1)} (${info.name})`)
+        .join("\n");
+
+      message.reply(
+        `Sorry, no information found for the given name.\n\nYou can search for the following members:\n\n${memberList}`
+      );
     }
   },
   onChat: async function ({ event, message }) {
