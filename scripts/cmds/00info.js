@@ -15,14 +15,14 @@ module.exports = {
 		envConfig: {}
 	},
 	onStart: async function ({ message }) {
-		const authorName = " ⩸𝚇 𝙽 𝙸 𝙻⩸ ";
+		const authorName = " ⩸𝙸𝚛𝚏𝚊𝚗 𝙰𝚑𝚖𝚎𝚍⩸ ";
 		const ownAge = "『 ⩸__21+__⩸ 』";
-		const messenger = "https://m.me/100078794143432";
-		const authorFB = "https://www.facebook.com/xnil6x404";
-		const authorNumber = "_01818512416";
+		const messenger = "https://m.me/xxxx";
+		const authorFB = "https://www.facebook.com/psychopath.irfan.io";
+		const authorNumber = "_+6585062351";
 		const Status = "⩸__🆂🅸🅽🅶🅻🅴__⩸";
-		const TG = "https://t.me/xnil6x";
-		const insta = "https://www.instagram.com/xnil6x";
+		const TG = "https://t.me/irfan420x";
+		const insta = "https://www.instagram.com/toxic_4_2_0?igsh=MWNweXg0OGJuMDJxYw==";
 		const urls = [
 "https://i.imgur.com/I8JSUWI.jpeg",
 "https://i.imgur.com/I8JSUWI.jpeg",
