@@ -20,7 +20,7 @@ module.exports = {
       return;
     }
 
-    // BTS মেম্বারদের তথ্য
+    // BTS মেম্বারদের তথ্য ও ছবি লিংক
     const membersInfo = {
       "rm": {
         name: "Kim Namjoon (RM)",
@@ -28,7 +28,8 @@ module.exports = {
         position: "Leader, Main Rapper",
         birthday: "September 12, 1994",
         instagram: "https://www.instagram.com/rkive",
-        fact: "He is the leader and known for his IQ of 148."
+        fact: "He is the leader and known for his IQ of 148.",
+        image: "https://example.com/rm_image.jpg" // RM এর ছবি লিংক
       },
       "jin": {
         name: "Kim Seokjin (Jin)",
@@ -36,7 +37,8 @@ module.exports = {
         position: "Vocalist, Visual",
         birthday: "December 4, 1992",
         instagram: "https://www.instagram.com/jin",
-        fact: "He is the oldest member of BTS and known as 'Worldwide Handsome'."
+        fact: "He is the oldest member of BTS and known as 'Worldwide Handsome'.",
+        image: "https://example.com/jin_image.jpg" // Jin এর ছবি লিংক
       },
       "suga": {
         name: "Min Yoongi (Suga)",
@@ -44,7 +46,8 @@ module.exports = {
         position: "Lead Rapper",
         birthday: "March 9, 1993",
         instagram: "https://www.instagram.com/agustd",
-        fact: "He is also a successful solo artist under the name 'Agust D'."
+        fact: "He is also a successful solo artist under the name 'Agust D'.",
+        image: "https://example.com/suga_image.jpg" // Suga এর ছবি লিংক
       },
       "jhope": {
         name: "Jung Hoseok (J-Hope)",
@@ -52,7 +55,8 @@ module.exports = {
         position: "Main Dancer, Rapper",
         birthday: "February 18, 1994",
         instagram: "https://www.instagram.com/uarmyhope",
-        fact: "He is known for his amazing dance skills and sunny personality."
+        fact: "He is known for his amazing dance skills and sunny personality.",
+        image: "https://example.com/jhope_image.jpg" // J-Hope এর ছবি লিংক
       },
       "jimin": {
         name: "Park Jimin",
@@ -60,7 +64,8 @@ module.exports = {
         position: "Main Dancer, Vocalist",
         birthday: "October 13, 1995",
         instagram: "https://www.instagram.com/j.m",
-        fact: "He is known for his angelic voice and graceful dance moves."
+        fact: "He is known for his angelic voice and graceful dance moves.",
+        image: "https://example.com/jimin_image.jpg" // Jimin এর ছবি লিংক
       },
       "v": {
         name: "Kim Taehyung (V)",
@@ -68,7 +73,8 @@ module.exports = {
         position: "Vocalist",
         birthday: "December 30, 1995",
         instagram: "https://www.instagram.com/thv",
-        fact: "He is known for his deep voice and unique fashion sense."
+        fact: "He is known for his deep voice and unique fashion sense.",
+        image: "https://example.com/v_image.jpg" // V এর ছবি লিংক
       },
       "jungkook": {
         name: "Jeon Jungkook",
@@ -76,7 +82,8 @@ module.exports = {
         position: "Main Vocalist, Lead Dancer",
         birthday: "September 1, 1997",
         instagram: "https://www.instagram.com/abcdefghi__lmnopqrstuvwxyz",
-        fact: "He is the youngest member and known as the 'Golden Maknae'."
+        fact: "He is the youngest member and known as the 'Golden Maknae'.",
+        image: "https://example.com/jungkook_image.jpg" // Jungkook এর ছবি লিংক
       }
     };
 
@@ -101,6 +108,7 @@ module.exports = {
 \🗓 DATE: ${date}
 \⏰ NOW TIME: ${time}
         `,
+        attachment: await global.utils.getStreamFromURL(memberInfo.image)
       });
     } else {
       message.reply("Sorry, no information found for that member. Please try again with a valid BTS member name.");
