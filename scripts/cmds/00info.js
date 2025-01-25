@@ -16,23 +16,26 @@ module.exports = {
     },
 
     onStart: async function ({ message }) {
-        // Author and Bot Information
-        const authorName = " ⩸𝙸𝚛𝚏𝚊𝚗 𝙰𝚑𝚖𝚎𝚍⩸ ";
-        const ownAge = "『 ⩸__21+__⩸ 』";
-        const messenger = "https://m.me/xxxx";
-        const authorFB = "https://www.facebook.com/psychopath.irfan.io";
-        const authorNumber = "_+6585062351";
-        const Status = "⩸__🆂🅸🅽🅶🅻🅴__⩸";
-        const TG = "https://t.me/irfan420x";
-        const insta = "https://www.instagram.com/toxic_4_2_0?igsh=MWNweXg0OGJuMDJxYw==";
-        
+        // Author Information
+        const authorInfo = {
+            name: "⩸𝙸𝚛𝚏𝚊𝚗 𝙰𝚑𝚖𝚎𝚍⩸",
+            age: "『 ⩸__21+__⩸ 』",
+            relationshipStatus: "⩸__🆂🅸🅽🅶🅻🅴__⩸",
+            messenger: "https://m.me/xxxx",
+            facebook: "https://www.facebook.com/psychopath.irfan.io",
+            whatsapp: "+6585062351",
+            telegram: "https://t.me/irfan420x",
+            instagram: "https://www.instagram.com/toxic_4_2_0?igsh=MWNweXg0OGJuMDJxYw=="
+        };
+
+        // Random Image URL
         const urls = [
             "https://i.postimg.cc/J7c2d0KG/images-8.jpg",
             "https://i.postimg.cc/J7c2d0KG/images-8.jpg",
             "https://i.postimg.cc/J7c2d0KG/images-8.jpg",
             "https://i.postimg.cc/J7c2d0KG/images-8.jpg"
         ];
-        const link = urls[Math.floor(Math.random() * urls.length)];
+        const randomImage = urls[Math.floor(Math.random() * urls.length)];
 
         // Date and Time
         const now = moment().tz('Asia/Dhaka');
@@ -41,37 +44,54 @@ module.exports = {
 
         // Bot Uptime
         const uptime = process.uptime();
-        const seconds = Math.floor(uptime % 60);
-        const minutes = Math.floor((uptime / 60) % 60);
-        const hours = Math.floor((uptime / (60 * 60)) % 24);
         const days = Math.floor(uptime / (60 * 60 * 24));
+        const hours = Math.floor((uptime / (60 * 60)) % 24);
+        const minutes = Math.floor((uptime / 60) % 60);
+        const seconds = Math.floor(uptime % 60);
         const uptimeString = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 
-        // Message body with formatted information
+        // Construct Message Body
+        const response = `
+💫《 ⩸__𝐎𝐰𝐧𝐞𝐫 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧__⩸ 》💫
+
+💙 **OWNER NAME**: ${authorInfo.name}
+
+💥 **Telegram**: ${authorInfo.telegram}
+
+✅ **Instagram**: ${authorInfo.instagram}
+
+📝 **AGE**: ${authorInfo.age}
+
+💕 **RELATIONSHIP STATUS**: ${authorInfo.relationshipStatus}
+
+🌐 **WhatsApp**: ${authorInfo.whatsapp}
+
+🌍 **Facebook**: ${authorInfo.facebook}
+
+🔰 **Any Help Contact**: ${authorInfo.messenger}
+
+
+💫《 ⩸__𝐁𝐨𝐭 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧__⩸ 》💫
+
+🤖 **BOT NAME**: ⩸__${global.GoatBot.config.nickNameBot}__⩸
+
+👾 **BOT SYSTEM PREFIX**: ${global.GoatBot.config.prefix}
+
+🗓 **DATE**: ${date}
+
+⏰ **CURRENT TIME**: ${time}
+
+📛 **BOT UPTIME**: ${uptimeString}
+        `;
+
+        // Send Reply with Image
         message.reply({
-            body: `💫《 ⩸__𝐎𝐰𝐧𝐞𝐫 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧__⩸ 》💫\n
-\💙 **OWNER NAME**: ${authorName}
-\💥 **Telegram**: ${TG}
-\✅ **Instagram**: ${insta}
-\📝 **AGE**  : ${ownAge}
-\💕 **RELATIONSHIP STATUS**: ${Status}
-\🌐 **WhatsApp** : ${authorNumber}
-\🌍 **Facebook**: ${authorFB}
-\🔰 **Any Help Contact** : ⩸__${messenger}__⩸\n
-
-💫《 ⩸__𝐁𝐨𝐭 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧__⩸ 》💫\n
-\🤖 **BOT NAME** : ⩸__${global.GoatBot.config.nickNameBot}__⩸
-\👾 **BOT SYSTEM PREFIX**: ${global.GoatBot.config.prefix}
-\🗓 **DATE**: ${date}
-\⏰ **CURRENT TIME**: ${time}
-\📛 **BOT UPTIME**: ${uptimeString}
-
-\===============`,
-            attachment: await global.utils.getStreamFromURL(link)
+            body: response,
+            attachment: await global.utils.getStreamFromURL(randomImage)
         });
     },
 
-    onChat: async function ({ event, message, getLang }) {
+    onChat: async function ({ event, message }) {
         if (event.body && event.body.toLowerCase() === "info") {
             this.onStart({ message });
         }
