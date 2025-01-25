@@ -24,10 +24,10 @@ module.exports = {
 		const TG = "https://t.me/irfan420x";
 		const insta = "https://www.instagram.com/toxic_4_2_0?igsh=MWNweXg0OGJuMDJxYw==";
 		const urls = [
-"https://i.imgur.com/I8JSUWI.jpeg",
-"https://i.imgur.com/I8JSUWI.jpeg",
-"https://i.imgur.com/I8JSUWI.jpeg",
-"https://i.imgur.com/I8JSUWI.jpeg"
+"https://imgur.com/a/3qqfpYV",
+"https://imgur.com/a/3qqfpYV",
+"https://imgur.com/a/3qqfpYV",
+"https://imgur.com/a/3qqfpYV"
 ];
 		const link = urls[Math.floor(Math.random() * urls.length)];
 		const now = moment().tz('Asia/Dhaka');
