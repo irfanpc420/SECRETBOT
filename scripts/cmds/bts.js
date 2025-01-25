@@ -2,9 +2,9 @@ const moment = require('moment-timezone');
 
 module.exports = {
   config: {
-    name: "info",
+    name: "bts",
     version: "1.0",
-    author: "Irfan Ahmed", // সঠিক বানান
+    author: "Irfan Ahmed",
     countDown: 20,
     role: 0,
     shortDescription: { vi: "", en: "" },
@@ -16,7 +16,7 @@ module.exports = {
   onStart: async function ({ message, event }) {
     const memberName = event.body.split(" ")[1]?.toLowerCase(); // সদস্যের নাম নেয়ার জন্য
     if (!memberName) {
-      message.reply("Please provide a BTS member's name. Example: bts jimin info");
+      message.reply("Please provide a BTS member's name. Example: bts rm info");
       return;
     }
 
@@ -28,13 +28,13 @@ module.exports = {
         position: "Leader, Main Rapper",
         birthday: "September 12, 1994",
         instagram: "https://www.instagram.com/rkive",
-        fact: "He is the leader and known for his IQ of 148.",
+        fact: "He is known for his exceptional leadership and songwriting skills.",
         nationality: "South Korean",
         bloodType: "A",
         height: "181 cm",
-        weight: "82 kg",
+        weight: "67 kg",
         zodiacSign: "Virgo",
-        education: "Graduated from the Global Cyber University"
+        education: "Graduated from Global Cyber University (Major in Broadcasting and Entertainment)"
       },
       "jin": {
         name: "Kim Seokjin (Jin)",
@@ -42,13 +42,13 @@ module.exports = {
         position: "Vocalist, Visual",
         birthday: "December 4, 1992",
         instagram: "https://www.instagram.com/jin",
-        fact: "He is the oldest member of BTS and known as 'Worldwide Handsome'.",
+        fact: "He is known as the 'Worldwide Handsome' for his stunning visuals.",
         nationality: "South Korean",
         bloodType: "O",
         height: "179 cm",
         weight: "63 kg",
         zodiacSign: "Sagittarius",
-        education: "Hanyang University (Theater and Film)"
+        education: "Graduated from Konkuk University (Major in Acting)"
       },
       "suga": {
         name: "Min Yoongi (Suga)",
@@ -56,13 +56,13 @@ module.exports = {
         position: "Lead Rapper",
         birthday: "March 9, 1993",
         instagram: "https://www.instagram.com/agustd",
-        fact: "He is also a successful solo artist under the name 'Agust D'.",
+        fact: "He is a skilled producer and composer, known for his stage name 'Agust D'.",
         nationality: "South Korean",
         bloodType: "O",
         height: "174 cm",
         weight: "59 kg",
         zodiacSign: "Pisces",
-        education: "Global Cyber University"
+        education: "Graduated from Global Cyber University (Major in Broadcasting and Entertainment)"
       },
       "jhope": {
         name: "Jung Hoseok (J-Hope)",
@@ -70,61 +70,65 @@ module.exports = {
         position: "Main Dancer, Rapper",
         birthday: "February 18, 1994",
         instagram: "https://www.instagram.com/uarmyhope",
-        fact: "He is known for his amazing dance skills and sunny personality.",
+        fact: "He is known for his energetic performances and bright personality.",
         nationality: "South Korean",
         bloodType: "A",
         height: "177 cm",
-        weight: "61 kg",
+        weight: "65 kg",
         zodiacSign: "Aquarius",
-        education: "Hoseo University"
+        education: "Graduated from Global Cyber University (Major in Broadcasting and Entertainment)"
       },
       "jimin": {
         name: "Park Jimin",
         age: "29",
-        position: "Main Dancer, Vocalist",
+        position: "Main Dancer, Lead Vocalist",
         birthday: "October 13, 1995",
         instagram: "https://www.instagram.com/j.m",
-        fact: "He is known for his angelic voice and graceful dance moves.",
+        fact: "He is known for his captivating stage presence and delicate vocals.",
         nationality: "South Korean",
-        bloodType: "AB",
-        height: "175 cm",
-        weight: "61 kg",
+        bloodType: "A",
+        height: "174 cm",
+        weight: "58 kg",
         zodiacSign: "Libra",
-        education: "Busan High School of Arts"
+        education: "Graduated from Global Cyber University (Major in Broadcasting and Entertainment)"
       },
       "v": {
         name: "Kim Taehyung (V)",
         age: "29",
-        position: "Vocalist",
+        position: "Vocalist, Visual",
         birthday: "December 30, 1995",
         instagram: "https://www.instagram.com/thv",
-        fact: "He is known for his deep voice and unique fashion sense.",
+        fact: "He is known for his deep voice and charismatic stage presence.",
         nationality: "South Korean",
-        bloodType: "B",
+        bloodType: "AB",
         height: "178 cm",
-        weight: "62 kg",
+        weight: "63 kg",
         zodiacSign: "Capricorn",
-        education: "Global Cyber University"
+        education: "Graduated from Global Cyber University (Major in Broadcasting and Entertainment)"
       },
       "jungkook": {
         name: "Jeon Jungkook",
         age: "27",
-        position: "Main Vocalist, Lead Dancer",
+        position: "Main Vocalist, Lead Dancer, Center",
         birthday: "September 1, 1997",
         instagram: "https://www.instagram.com/abcdefghi__lmnopqrstuvwxyz",
-        fact: "He is the youngest member and known as the 'Golden Maknae'.",
+        fact: "He is the youngest member of BTS and known as the 'Golden Maknae'.",
         nationality: "South Korean",
         bloodType: "A",
         height: "178 cm",
         weight: "66 kg",
         zodiacSign: "Virgo",
-        education: "School of Performing Arts Seoul"
+        education: "Graduated from Global Cyber University (Major in Broadcasting and Entertainment)"
       }
     };
 
     // সদস্যের তথ্য চেক করা হচ্ছে
-    if (membersInfo[memberName]) {
-      const memberInfo = membersInfo[memberName];
+    const memberKey = Object.keys(membersInfo).find(
+      key => key.toLowerCase() === memberName || membersInfo[key].name.toLowerCase().includes(memberName)
+    );
+
+    if (memberKey) {
+      const memberInfo = membersInfo[memberKey];
       const now = moment().tz('Asia/Dhaka');
       const date = now.format('MMMM Do YYYY');
       const time = now.format('h:mm:ss A');
@@ -152,7 +156,13 @@ module.exports = {
 🔍 Information provided by: Irfan Ahmed`
       });
     } else {
-      message.reply("Sorry, no information found for that member. Please try again with a valid BTS member name.");
+      const memberList = Object.entries(membersInfo)
+        .map(([key, info], index) => `${index + 1}. ${key.toUpperCase()} (${info.name})`)
+        .join("\n");
+
+      message.reply(
+        `Sorry, no information found for the given name.\n\nYou can search for the following members:\n\n${memberList}`
+      );
     }
   },
   onChat: async function ({ event, message }) {
