@@ -1,76 +1,59 @@
 const axios = require("axios");
 const m = require("moment-timezone");
+
 module.exports = {
   config: {
-    name: "gpt",
+    name: "ai1", // Updated name
     version: "1.0",
-    author: "Romim",
+    author: "Irfan Ahmed",
     countDown: 5,
     role: 0,
-    shortDescription: "gemini",
-    category: "npx gemini",
+    shortDescription: "Mahi AI Response",
+    category: "chat",
     guide: {
-      en: "{p}{n}",
+      en: "{p}{n} mahi [message]",
     },
   },
+
   onStart: async function () {},
+
   onChat: async function ({ api, args, event }) {
     const body = event.body.trim().toLowerCase();
-     const Time = m.tz('Asia/Dhaka');
-      const time = Time.format('MMMM D, YYYY h:mm A');
-    if (event.threadID !== 8008566255928114) {
-       // console.log("This command is not allowed in this thread.");
-    
-    if (body.startsWith("ai")||body.startsWith("gpt")) {
-      const Romim = args.join(" ");
+    const Time = m.tz("Asia/Dhaka");
+    const time = Time.format("MMMM D, YYYY h:mm A");
+
+    // Check if the message starts with "mahi"
+    if (body.startsWith("mahi")) {
+      const query = body.slice(5).trim(); // Remove "mahi" from the message to get the query
+      if (!query) {
+        return api.sendMessage(
+          `You mentioned "mahi" but didn't provide any context. Please ask a proper question.`,
+          event.threadID,
+          event.messageID
+        );
+      }
 
       try {
-        const response = await axios.get(`https://www.noobz-api.rf.gd/api/gpt4?value=${encodeURIComponent(Romim)}`);
+        // Make API call with the query
+        const response = await axios.get(
+          `https://www.noobz-api.rf.gd/api/gpt4?value=${encodeURIComponent(query)}`
+        );
         const content = response.data.data;
 
-        return api.sendMessage(`Here's Results: \n${content}\ntime:-\n${time}✅`, event.threadID, (error, info) => {
-          if (error) return console.error(`Failed to send message: ${error.message}`);
-
-          global.GoatBot.onReply.set(info.messageID, {
-            commandName: this.config.name,
-            type: "reply",
-            messageID: info.messageID,
-            author: event.senderID,
-          });
-        });
+        // Send the response
+        return api.sendMessage(
+          `Response:\n${content}\nTime: ${time} ✅`,
+          event.threadID,
+          event.messageID
+        );
       } catch (error) {
         console.error(`Failed to get an answer: ${error.message}`);
-        api.sendMessage("An error occurred while processing your request.", event.threadID, event.messageID);
+        return api.sendMessage(
+          "An error occurred while processing your request.",
+          event.threadID,
+          event.messageID
+        );
       }
-    }
     }
   },
-
-  onReply: async function ({ api, event }) {
-    const reply = event.body.toLowerCase();
-    const replyData = global.GoatBot.onReply.get(event.messageReply.messageID); 
-     const hTime = m.tz('Asia/Dhaka');
-      const gtime = hTime.format('MMMM D, YYYY h:mm A');
-    if (replyData && replyData.author == event.senderID) {
-      try {
-        const response = await axios.get(`https://www.noobz-api.rf.gd/api/gpt4?value=${encodeURIComponent(reply)}`);
-        const AY = response.data.data;
-
-        await api.sendMessage(`Here's Results : ${AY}\ntime-\n${gtime}✅`, event.threadID,(error, info) => {
-              if (error) return console.error(`Failed to send message: ${error.message}`);
-              global.GoatBot.onReply.set(info.messageID, {
-                commandName: this.config.name,
-                type: "reply",
-                messageID: info.messageID,
-                author: event.senderID,
-              });
-            },
-            event.messageID);
-
-      } catch (error) {
-        console.error(`Failed to get an answer: ${error.message}`);
-        api.sendMessage("An error occurred while processing your request.", event.threadID, event.messageID);
-      }
-    }
-  }
 };
