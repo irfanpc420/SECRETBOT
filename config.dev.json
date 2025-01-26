@@ -42,8 +42,7 @@
     ],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": "𝙿𝚜𝚢𝚌𝚑𝚘 𝙱𝚘𝚝
-🧠🤖",
+  "nickNameBot": "𝙿𝚜𝚢𝚌𝚑𝚘 𝙱𝚘𝚝",
   "prefix": ".",
   "database": {
     "type": "mongodb",
