@@ -17,7 +17,7 @@ module.exports = {
   onStart: async function ({ message, event }) {
     const query = event.body.split(" ").slice(1).join(" ");
     if (!query) {
-      message.reply("Please provide a query to search. Example: .mahi <query>");
+      message.reply("❌ Please provide a query to search. Example: `.mahi <query>`");
       return;
     }
 
@@ -30,23 +30,37 @@ module.exports = {
 
       // Check if the API limit is exceeded
       if (response.data.error && response.data.error.code === 403) {
-        message.reply("Sorry, the API limit has been reached. Please try again later.");
+        message.reply("❌ Sorry, the API limit has been reached. Please try again later.");
         return;
       }
 
       const items = response.data.items;
       if (!items || items.length === 0) {
-        message.reply("Sorry, no results found.");
+        message.reply("❌ Sorry, no results found.");
         return;
       }
 
-      let resultMessage = `💫《 ⩸__𝐒𝐞𝐚𝐫𝐜𝐡 𝐑𝐞𝐬𝐮𝐥𝐭𝐬__⩸ 》💫\n`;
+      // Start formatting the response
+      let resultMessage = `
+💫《 ⩸__𝐒𝐞𝐚𝐫𝐜𝐡 𝐑𝐞𝐬𝐮𝐥𝐭𝐬__⩸ 》💫
 
-      // Only show the first result
+Here are the details I found for: **${query}**\n`;
+
+      // Only show the first result with enhanced formatting
       items.slice(0, 1).forEach((item, index) => {
-        resultMessage += `\n🔍 **Result ${index + 1}:**\n`;
-        resultMessage += `💙 **Title**: ${item.title}\n`;
-        resultMessage += `📖 **Info**: ${item.snippet}\n`;
+        resultMessage += `
+🔍 **Result ${index + 1}:**
+
+💙 **Title**: ${item.title}
+📖 **Description**: ${item.snippet}
+🌐 **Link**: [Click here](${item.link})
+
+`;
+
+        // Adding more info, like source and context, if available
+        if (item.pagemap && item.pagemap.cse_image) {
+          resultMessage += `📸 **Image**: ${item.pagemap.cse_image[0].src}\n`;
+        }
       });
 
       // Send the message only once
@@ -58,12 +72,12 @@ module.exports = {
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         if (error.response.data.error.code === 403) {
-          message.reply("Sorry, the API limit has been reached. Please try again later.");
+          message.reply("❌ Sorry, the API limit has been reached. Please try again later.");
         } else {
-          message.reply("Sorry, there was an error retrieving the search results. Please try again later.");
+          message.reply("❌ Sorry, there was an error retrieving the search results. Please try again later.");
         }
       } else {
-        message.reply("Sorry, there was an error. Please try again later.");
+        message.reply("❌ Sorry, there was an error. Please try again later.");
       }
     }
   },
