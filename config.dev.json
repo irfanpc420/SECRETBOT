@@ -42,8 +42,9 @@
     ],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": "☞︎︎︎✍︎ 𝚇 𝙽 𝙸 𝙻 ✿︎𝙱☺︎︎𝚃 ♕︎",
-  "prefix": "/",
+  "nickNameBot": "𝙿𝚜𝚢𝚌𝚑𝚘 𝙱𝚘𝚝
+🧠🤖",
+  "prefix": ".",
   "database": {
     "type": "mongodb",
     "uriMongodb": "mongodb+srv://xnil6x143:HaogAjelhhZehn5i@cluster0.htr4b.mongodb.net/xnil?retryWrites=true&w=majority&appName=Cluster0",
