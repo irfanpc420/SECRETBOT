@@ -3,7 +3,7 @@ const m = require("moment-timezone");
 
 module.exports = {
   config: {
-    name: "bot", // Updated name to bot
+    name: "bot",
     version: "1.0",
     author: "Irfan Ahmed",
     countDown: 5,
@@ -19,37 +19,42 @@ module.exports = {
 
   onChat: async function ({ api, args, event }) {
     const body = event.body.trim().toLowerCase();
-    const Time = m.tz("Asia/Dhaka");
-    const time = Time.format("MMMM D, YYYY h:mm A");
 
     // Check if the message starts with "bot"
     if (body.startsWith("bot")) {
       const query = body.slice(3).trim(); // Remove "bot" from the message to get the query
+
       if (!query) {
         return api.sendMessage(
-          `কিরে কি কবি তারাতাড়ি ক 😒`,  // Custom response when no query is provided
+          `**Please ask a valid question after saying 'bot'.**`,
           event.threadID,
           event.messageID
         );
       }
 
+      // Quick response while waiting for the API call
+      api.sendMessage("**Processing your request... Please wait a moment.**", event.threadID);
+
       try {
         // Make API call with the query
         const response = await axios.get(
-          `https://www.noobz-api.rf.gd/api/gpt4?value=${encodeURIComponent(query)}`
+          `https://kaiz-apis.gleeze.com/api/gpt-4o?ask=${encodeURIComponent(query)}&uid=1&webSearch=off`
         );
-        const content = response.data.data;
+        const content = response.data.response;
 
-        // Send the response without time info
-        return api.sendMessage(
-          `${content}`,  // Removed the time part
-          event.threadID,
-          event.messageID
-        );
+        // Format the response with large text-like effect using Telegram supported characters
+        const formattedResponse = `
+          ⭐ **Answer:** _${content}_
+
+          🔍 **Details:** _Feel free to ask more questions or clarify!_
+        `;
+
+        // Send the formatted response
+        return api.sendMessage(formattedResponse, event.threadID, event.messageID);
       } catch (error) {
         console.error(`Failed to get an answer: ${error.message}`);
         return api.sendMessage(
-          "An error occurred while processing your request.",
+          "**An error occurred while processing your request.**",
           event.threadID,
           event.messageID
         );
