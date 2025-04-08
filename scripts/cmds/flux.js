@@ -1,44 +1,54 @@
-const axios = require("axios");
-
-const baseApiUrl = async () => {
-  const base = await axios.get(
-    `https://raw.githubusercontent.com/Blankid018/D1PT0/main/baseApiUrl.json`
-  );
-  return base.data.xnil;
-};
+const axios = require('axios');
+const fs = require('fs-extra'); // fs-extra ব্যবহার করা হচ্ছে
 
 module.exports = {
   config: {
     name: "flux",
-    version: "2.0",
-    role: 0,
-    author: "xnil",
-    description: "Generate images with Flux.1 Pro",
-    category: "ai image",
-    preimum: true,
-    guide: "{pn} [prompt]",
-    countDown: 15,
+    credits: "Irfan", // ক্রেডিট হিসেবে Irfan যোগ করা হয়েছে
+    category: "image generator", // ক্যাটাগরি চেঞ্জ করা হয়েছে
+    description: "Generate high-quality AI images using the Flux model from text prompts." // নতুন ডিস্ক্রিপশন যোগ করা হয়েছে
   },
 
-  onStart: async function({ message, event, args, getLang, api }) {
-    try {
-      const prompt = args.join(" ");
-      const startTime = new Date().getTime();
-      const ok = message.reply("wait baby <😘");
-      api.setMessageReaction("⌛", event.messageID, (err) => {}, true);
-      const apiUrl = `${await baseApiUrl()}/xnil/flux?prompt=${encodeURIComponent(prompt)}`;
-      const response = await axios.get(apiUrl);
-      const imageUrl = response.data.image;
-      api.setMessageReaction("✅", event.messageID, (err) => {}, true);
-      message.unsend(ok.messageID);
-      const attachment = await global.utils.getStreamFromURL(imageUrl);
-      const endTime = new Date().getTime();
-      await message.reply({
-        body: `Here's your image\nModel Name: "Flux"\nTime Taken: ${(endTime - startTime) / 1000} second/s`,
-        attachment,
-      });
-    } catch (e) {
-      message.reply("Error: " + e.message);
-    }
-  },
+  onStart: async function({ api, event, args }) {
+    let { threadID, messageID } = event;
+    let query = args.join(" ");
+    if (!query) return api.sendMessage("⚠️ Please provide a text/query!", threadID, messageID);
+
+    // প্রথমে ইউজারকে জানানো হবে যে ইমেজ জেনারেট করা হচ্ছে
+    api.sendMessage("⏳ Generating image, please wait...", threadID, async (err, info) => {
+      if (err) return console.error(err);
+
+      // ফোল্ডার পথ সেট করা হচ্ছে
+      const cacheDir = __dirname + "/cache";
+      const imagePath = `${cacheDir}/flux_${Date.now()}.png`;
+
+      try {
+        // চেক করুন যে ফোল্ডারটি আছে কি না, না থাকলে তৈরি করুন
+        if (!fs.existsSync(cacheDir)) {
+          await fs.mkdir(cacheDir, { recursive: true });
+        }
+
+        // API কল করা হচ্ছে
+        const response = await axios.get(`https://kaiz-apis.gleeze.com/api/flux`, {
+          params: { prompt: query }, // প্রম্পট পাঠানো হচ্ছে
+          responseType: "arraybuffer", // ইমেজ ডেটা গ্রহণ করা হচ্ছে
+        });
+
+        // ইমেজ ফাইল হিসেবে সেভ করা হচ্ছে
+        await fs.writeFile(imagePath, Buffer.from(response.data, "binary"));
+
+        // ইউজারকে ইমেজ পাঠানো হচ্ছে
+        api.sendMessage({
+          body: "✅ Here's your generated image!",
+          attachment: fs.createReadStream(imagePath)
+        }, threadID, () => {
+          fs.unlinkSync(imagePath); // ইমেজ পাঠানোর পর ফাইল ডিলিট করে দেওয়া হবে
+        }, messageID);
+
+      } catch (error) {
+        console.error("Error Details:", error.message);
+        api.sendMessage("❌ Failed to generate image. Please try again later.", threadID, messageID);
+      }
+    });
+  }
 };
