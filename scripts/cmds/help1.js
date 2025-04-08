@@ -3,7 +3,7 @@ const axios = require("axios");
 const path = require("path");
 const { getPrefix } = global.utils;
 const { commands, aliases } = global.GoatBot;
-const doNotDelete = "[ 😎 | ☞︎︎︎✍︎ 𝚇 𝙽 𝙸 𝙻 ✿︎𝙱☺︎︎𝚃 ♕︎ ]";
+const doNotDelete = "[ 𝑷𝑺𝒀𝑪𝑯𝑶 𝑩𝑶𝑻 ]";
 
 module.exports = {
   config: {
@@ -34,7 +34,7 @@ module.exports = {
       const categories = {};
       let msg = "";
 
-      msg += `╔══════════════╗\n     ☞︎︎︎✍︎ 𝚇 𝙽 𝙸 𝙻 ✿︎𝙱☺︎︎𝚃 ♕︎💐\n╚══════════════╝`;
+      msg += `╔══════════════╗\n     𝑷𝑺𝒀𝑪𝑯𝑶 𝑩𝑶𝑻\n╚══════════════╝`;
 
       for (const [name, value] of commands) {
           if (value.config.role > 1 && role < value.config.role) continue;
