@@ -5,7 +5,7 @@ module.exports = {
   config: {
     name: "poli",
     credits: "Loid Butter",
-    category: "image generator", // ক্যাটাগরি চেঞ্জ করা হয়েছে
+    category: "AI IMAGE", // ক্যাটাগরি চেঞ্জ করা হয়েছে
     description: "Generate AI-based images from text prompts." // নতুন ডিস্ক্রিপশন যুক্ত
   },
 
